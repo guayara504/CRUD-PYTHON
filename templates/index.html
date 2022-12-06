@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <h1 class="text-center mt-5 mb-5 text-primary">CRUD-FLASK</h1>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h2>Collections</h2>
+                <form action="/addCollection" method="POST">
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" name ="nombre_library">
+                        </div>
+                        <div class="col-md-2">
+                            <label>Quality</label>
+                            <input type="text" class="form-control" name ="quality_library">
+                        </div>
+                        <div class="col">
+                            <buttton class="btn btn-primary mb-3 mt-4" type="submit">Guardar</buttton>
+                        </div>  
+                    </div>
+                </form>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Quality</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in data[0] %}
+                            <tr>
+                                <td>{{d.id}}</td>
+                                <td>{{d.name}}</td>
+                                <td>{{d.quality}}</td>
+                                <td><button class="btn btn-primary btn-sm" id="btn-editCollection({{d.id}})" data-bs-toogle="modal" data-bs-target="#modalCollection{{d.id}}" >Edit</button></button></td>
+                                <td><a href="{{url_for('deleteCollection', id = d.id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                            </tr>
+
+                            <div class="modal fade" id="modalCollection{{d.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{d.name}}</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form action="/editCollection/{{d.id}}" method="POST">
+                                        <label>Nombre</label>
+                                        <input type="text" class="form-control" name ="nombre_library" value ="{{d.name}}">
+                                        <label>Quality</label>
+                                        <input type="text" class="form-control" name ="quality_library"value ="{{d.quality}}">
+                                      
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h1> </h1>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h2>Book</h2>
+                <form action="/addBook" method="POST">
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control mb-3" name = "nombre_book">
+                        </div>
+                        <div class="col-md-2">
+                            <label>Collection</label>
+                            <input type="text" class="form-control mb-3" name = "collection_book">
+                        </div>
+                        <div class="col-md-2">
+                            <label>Location</label>
+                            <input type="text" class="form-control mb-3" name = "location_book">
+                        </div>
+                        <div class="col-md-2">
+                            <buttton class="btn btn-primary mb-3 mt-4" type="submit">Guardar</buttton>
+                        </div>
+                    </div>
+                </form>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Collection</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in data[1] %}
+                            <tr>
+                                <td>{{d.id}}</td>
+                                <td>{{d.name}}</td>
+                                <td>{{d.collection}}</td>
+                                <td>{{d.location}}</td>
+                                <td><button class="btn btn-primary btn-sm" id="btn-editBook({{d.id}})" data-bs-toogle="modal" data-bs-target="#modalBook{{d.id}}" >Edit</button></button></td>
+                                <td><a href="{{url_for('deleteBook', id = d.id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                            </tr>
+
+                            <div class="modal fade" id="modalBook{{d.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{d.name}}</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/editBook/{{d.id}}" method="POST">
+                                            <label>Nombre</label>
+                                            <input type="text" class="form-control mb-3" name = "nombre_book" value ="{{d.name}}">  
+                                            <label>Collection</label>
+                                            <input type="text" class="form-control mb-3" name = "collection_book" value ="{{d.collection}}">
+                                            <label>Location</label>
+                                            <input type="text" class="form-control mb-3" name = "location_book" value ="{{d.location}}">                                                
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
